@@ -30,6 +30,10 @@ public class Basket {
         TotalCalculator() {
             this.items = items();
             numberOfItems = new HashMap<>();
+            sameSetItemsInBasket();
+        }
+
+        private void sameSetItemsInBasket() {
             for (Item item : this.items) {
                 numberOfItems.compute(item, (k,v) -> {
                     if (v == null)
@@ -56,15 +60,20 @@ public class Basket {
         private BigDecimal discounts() {
             BigDecimal discount = new BigDecimal(0);
             for (Map.Entry<Item, Integer> entry : numberOfItems.entrySet()) {
-                BigDecimal currentDiscount = BigDecimal.ZERO;
                 if (entry.getValue() % 3 == 0) {
-                    currentDiscount = entry.getKey().price();
-                    currentDiscount = currentDiscount.multiply(
-                            new BigDecimal(entry.getValue() / 3).setScale(0, RoundingMode.DOWN));
+                    discount = discount.add(buyItemByUnitForOneLess(entry.getKey(), entry.getValue(), 3));
+                } else if (entry.getValue() % 2 == 0) {
+                    discount = discount.add(buyItemByUnitForOneLess(entry.getKey(), entry.getValue(), 2));
                 }
-                discount = discount.add(currentDiscount);
             }
             return discount;
+        }
+
+        private BigDecimal buyItemByUnitForOneLess(Item item, Integer numberOfItems, Integer itemValue) {
+            BigDecimal currentDiscount = item.price();
+            currentDiscount = currentDiscount.multiply(
+                    new BigDecimal(numberOfItems / itemValue).setScale(0, RoundingMode.DOWN));
+            return currentDiscount;
         }
 
         private BigDecimal calculate() {

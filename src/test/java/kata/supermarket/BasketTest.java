@@ -31,8 +31,27 @@ class BasketTest {
                 aSingleItemPricedByWeight(),
                 multipleItemsPricedByWeight(),
                 buyThreeForTwo(),
-                buyThreeSeparateItems()
+                buyThreeSeparateItems(),
+                buySixForPriceOfFour(),
+                buyFourItemsGetDiscountOnThree(),
+                buyTwoForOne()
         );
+    }
+
+    private static Arguments buyTwoForOne() {
+        return Arguments.of("buy two for one", "0.49",
+                Arrays.asList(aPintOfMilk(), aPintOfMilk()));
+    }
+
+    private static Arguments buyFourItemsGetDiscountOnThree() {
+        return Arguments.of("buy four items but three are the same", "2.53",
+                Arrays.asList(aPintOfMilk(), aPintOfMilk(), aPintOfMilk(), aPackOfDigestives()));
+    }
+
+    private static Arguments buySixForPriceOfFour() {
+        return Arguments.of("buy six, use discount to pay for four", "1.96",
+                Arrays.asList(aPintOfMilk(), aPintOfMilk(), aPintOfMilk(),
+                        aPintOfMilk(), aPintOfMilk(), aPintOfMilk()));
     }
 
     private static Arguments buyThreeSeparateItems() {
