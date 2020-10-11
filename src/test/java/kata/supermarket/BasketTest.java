@@ -25,17 +25,23 @@ class BasketTest {
 
     static Stream<Arguments> basketProvidesTotalValue() {
         return Stream.of(
-//                noItems(),
-//                aSingleItemPricedPerUnit(),
-//                multipleItemsPricedPerUnit(),
-//                aSingleItemPricedByWeight(),
-//                multipleItemsPricedByWeight(),
-                buyThreeForTwo()
+                noItems(),
+                aSingleItemPricedPerUnit(),
+                multipleItemsPricedPerUnit(),
+                aSingleItemPricedByWeight(),
+                multipleItemsPricedByWeight(),
+                buyThreeForTwo(),
+                buyThreeSeparateItems()
         );
     }
 
+    private static Arguments buyThreeSeparateItems() {
+        return Arguments.of("three separate items, no discount", "2.93",
+                Arrays.asList(aPackOfDigestives(), aPintOfMilk(), aCoke()));
+    }
+
     private static Arguments buyThreeForTwo() {
-        return Arguments.of("multiple items priced per unit", "0.98",
+        return Arguments.of("three for two, discount", "0.98",
                 Arrays.asList(aPintOfMilk(), aPintOfMilk(), aPintOfMilk()));
     }
 
@@ -64,6 +70,10 @@ class BasketTest {
 
     private static Item aPintOfMilk() {
         return new Product(new BigDecimal("0.49")).oneOf();
+    }
+
+    private static Item aCoke() {
+        return new Product(new BigDecimal("0.89")).oneOf();
     }
 
     private static Item aPackOfDigestives() {
