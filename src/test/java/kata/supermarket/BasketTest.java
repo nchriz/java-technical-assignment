@@ -25,12 +25,18 @@ class BasketTest {
 
     static Stream<Arguments> basketProvidesTotalValue() {
         return Stream.of(
-                noItems(),
-                aSingleItemPricedPerUnit(),
-                multipleItemsPricedPerUnit(),
-                aSingleItemPricedByWeight(),
-                multipleItemsPricedByWeight()
+//                noItems(),
+//                aSingleItemPricedPerUnit(),
+//                multipleItemsPricedPerUnit(),
+//                aSingleItemPricedByWeight(),
+//                multipleItemsPricedByWeight(),
+                buyThreeForTwo()
         );
+    }
+
+    private static Arguments buyThreeForTwo() {
+        return Arguments.of("multiple items priced per unit", "0.98",
+                Arrays.asList(aPintOfMilk(), aPintOfMilk(), aPintOfMilk()));
     }
 
     private static Arguments aSingleItemPricedByWeight() {

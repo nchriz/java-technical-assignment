@@ -2,9 +2,7 @@ package kata.supermarket;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Basket {
     private final List<Item> items;
@@ -27,9 +25,18 @@ public class Basket {
 
     private class TotalCalculator {
         private final List<Item> items;
+        private final Map<Item, Integer> numberOfItems;
 
         TotalCalculator() {
             this.items = items();
+            numberOfItems = new HashMap<>();
+            for (Item item : this.items) {
+                numberOfItems.compute(item, (k,v) -> {
+                    if (v == null)
+                        return 1;
+                    return v+1;
+                });
+            }
         }
 
         private BigDecimal subtotal() {
@@ -47,7 +54,17 @@ public class Basket {
          *  which provides that functionality.
          */
         private BigDecimal discounts() {
-            return BigDecimal.ZERO;
+            BigDecimal discount = new BigDecimal(0);
+            for (Map.Entry<Item, Integer> entry : numberOfItems.entrySet()) {
+                BigDecimal currentDiscount = BigDecimal.ZERO;
+                if (entry.getValue() % 3 == 0) {
+                    currentDiscount = entry.getKey().price();
+                    currentDiscount = currentDiscount.multiply(
+                            new BigDecimal(entry.getValue() / 3).setScale(0, RoundingMode.DOWN));
+                }
+                discount = discount.add(currentDiscount);
+            }
+            return discount;
         }
 
         private BigDecimal calculate() {

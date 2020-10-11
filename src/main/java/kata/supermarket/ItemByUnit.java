@@ -13,4 +13,19 @@ public class ItemByUnit implements Item {
     public BigDecimal price() {
         return product.pricePerUnit();
     }
+
+    @Override
+    public int hashCode() {
+        return product.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!(obj instanceof ItemByUnit))
+            return false;
+        ItemByUnit other = (ItemByUnit) obj;
+        return product.equals(other.product);
+    }
 }
