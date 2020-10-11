@@ -60,7 +60,10 @@ public class Basket {
          *  Think about how Basket could interact with something
          *  which provides that functionality.
          *
-         *  
+         *  As MAP is prepare with number of same Item in Basket, easy to iterate through it to calculate discount that
+         *  can be applied. A easy add would be to add a counter if previous discount hasn't been used. If 2 item and
+         *  price over £1 then add discount of sum above £1. An interesting problem is how to apply discounts that most
+         *  benefit customer.
          */
         private BigDecimal discounts() {
             BigDecimal discount = BigDecimal.ZERO;
